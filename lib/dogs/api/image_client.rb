@@ -5,8 +5,8 @@ module Dogs
 
       attr_reader :breed, :conn
 
-      def initialize(breed)
-        @breed  = breed.downcase
+      def initialize(breed = nil)
+        @breed  = breed&.downcase
         @conn ||= Faraday.new(
           url: BASE_URI
         )
@@ -20,6 +20,12 @@ module Dogs
         JSON.parse(response.body).merge!({"breed" => breed})
       rescue URI::InvalidURIError, InvalidBreedError
         NullBreed.new.body
+      end
+
+      def breed_names
+        response = Faraday.get("https://dog.ceo/api/breeds/list/all")
+
+        JSON.parse(response.body).fetch("message", {}).keys
       end
 
       private

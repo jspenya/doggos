@@ -1,0 +1,5 @@
+<% breed_names.each do |name| %>
+  <div data-controller="debounce">
+    <%= link_to name.humanize, "#", data: { action: "click->debounce#selectOption", breed: name.humanize, turbo: false } %>
+  </div>
+<% end %>

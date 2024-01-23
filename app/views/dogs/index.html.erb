@@ -1,12 +1,7 @@
+
 <div class="shadow-md rounded-3xl grid grid-cols-2 grid-cols-1:md gap-4 items-center justify-items-center">
   <div>
-    <%= form_for :dog, url: dogs_path, data: { turbo_action: "advance" } do |f| %>
-      <%= f.text_field :breed, input_html: { autofocus: true }, placeholder: "Breeds", class: "rounded-lg text-lg" %>
-      <%= f.submit "Submit", class: "text-white bg-blue-700 hover:bg-blue-800
-        focus:ring-4 focus:ring-blue-300 font-medium rounded-lg
-        text-lg px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700
-        focus:outline-none dark:focus:ring-blue-800" %>
-    <% end %>
+    <%= render "dogs/search_form" %>
   </div>
   <div class="w-64 min-h-64 py-3" style="height:fit-content;">
     <%= turbo_frame_tag "preview" %>
