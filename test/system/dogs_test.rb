@@ -11,9 +11,10 @@ class DogsTest < ApplicationSystemTestCase
 
     assert_selector "h1", text: "Doggos"
 
-    fill_in "dog_breed", with: @dog.breed
+    fill_in "dog_breed", with: "#{@dog.breed}"
     click_on "Submit"
 
+    sleep 8.seconds
     assert_selector "img[alt='#{@dog.breed}']"
   end
 

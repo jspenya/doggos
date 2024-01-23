@@ -1,1 +1,1 @@
-<%= turbo_stream.update "preview", partial: "dogs/preview", locals: { url: @response["message"], breed: @response["breed"], missing: @response["missing"] } %>
+<%= turbo_stream.update "preview", partial: "dogs/preview", locals: { dog: @dog } %>
