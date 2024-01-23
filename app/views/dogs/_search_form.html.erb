@@ -1,7 +1,7 @@
 <div data-controller="debounce"></div>
 
 <%= form_for :dog, url: dogs_path, method: :post, data: { controller: "debounce", debounce_target: "form", url: search_dogs_url } do |f| %>
-  <%= f.text_field :breed, input_html: { autofocus: true }, placeholder: "Breeds", class: "rounded-lg text-lg", data: { action: "input->debounce#search", debounce_target: "inputField" } %>
+  <%= f.search_field :breed, input_html: { autofocus: true }, placeholder: "Breeds", class: "rounded-lg text-lg", data: { action: "input->debounce#search", debounce_target: "inputField" } %>
   <%= f.submit "Submit", class: "text-white bg-blue-700 hover:bg-blue-800
     focus:ring-4 focus:ring-blue-300 font-medium rounded-lg
     text-lg px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700
