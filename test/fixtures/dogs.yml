@@ -1,0 +1,8 @@
+first:
+  breed: malamute
+
+second:
+  breed: beagle
+
+invalid:
+  breed: Invalid

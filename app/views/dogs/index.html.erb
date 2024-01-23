@@ -1,0 +1,10 @@
+<div>
+  <h1>Doggos <%= Time.now %></h1>
+
+  <%= form_for :dog, url: dogs_path, data: { turbo_action: "advance" } do |f| %>
+    <%= f.text_field :breed, input_html: { autofocus: true }, placeholder: "Breeds" %>
+    <%= f.submit "Submit", class: "btn btn--secondary" %>
+  <% end %>
+</div>
+
+<%= turbo_frame_tag "preview" %>

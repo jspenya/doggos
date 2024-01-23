@@ -1,0 +1,9 @@
+<div class="float-right">
+  <% if missing %>
+    <p class="font-bold text-lg text-rose-500"><%= missing %></p>
+  <% else %>
+    <p class="font-bold text-lg"><%= breed.humanize %></p>
+  <% end %>
+
+  <%= image_tag url, alt: breed || "Invalid", class: "w-1/2" %>
+</div>
