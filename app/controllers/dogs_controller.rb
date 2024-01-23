@@ -2,7 +2,7 @@ class DogsController < ApplicationController
   def index; end
 
   def create
-    @response = Dogs::Api::ImageClient.new(breed_params[:breed]).by_breed unless breed_params.blank?
+    @dog = Dogs::CreateOrUpdate.new(breed_params[:breed]).call unless breed_params.blank?
 
     respond_to do |format|
       format.turbo_stream

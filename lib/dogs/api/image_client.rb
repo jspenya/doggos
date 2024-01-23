@@ -22,6 +22,16 @@ module Dogs
         NullBreed.new.body
       end
 
+      def multiple_images_by_breed
+        response = conn.get("#{breed}/images/random/3")
+
+        raise InvalidBreedError unless response.success?
+
+        JSON.parse(response.body).fetch("message", [])
+      rescue URI::InvalidURIError, InvalidBreedError
+        []
+      end
+
       private
 
       class InvalidBreedError < StandardError; end
