@@ -4,12 +4,11 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   connect() { }
 
-  static targets = ["form"]
+  static targets = ["form", "breedOption", "breedInput", "searchResults"]
 
   search() {
     clearTimeout(this.timeout)
     this.timeout = setTimeout(() => {
-      const inputVal = document.querySelector("#dog_breed").value
       fetch("/dogs/search", {
         method: "POST",
         headers: {
@@ -17,29 +16,30 @@ export default class extends Controller {
           "X-CSRF-Token": document.querySelector('[name="csrf-token"]').content,
           'Accept': 'text/vnd.turbo-stream.html',
         },
-        body: JSON.stringify({ breed: inputVal })
+        body: JSON.stringify({ breed: this.breedInputTarget.value })
       }).then(response => {
         if (response.ok) {
-          return response.text();
+          return response.text()
         }
-        throw new Error('Network response was not ok.');
+        throw new Error('Network response was not ok.')
       }).then(html => {
-        Turbo.renderStreamMessage(html);
+        Turbo.renderStreamMessage(html)
       }).catch(error => {
-        console.error('Error:', error);
-      });
+        console.error('Error:', error)
+      })
 
     }, 500)
   }
 
   selectOption(event) {
-    const container = document.getElementById('search_results');
+    const container = this.searchResultsTarget
     event.preventDefault()
 
-    document.querySelector("#dog_breed").value = event.target.dataset.breed
+    this.breedInputTarget.value = this.breedOptionTarget.dataset.breed
+    this.formTarget.requestSubmit()
 
     while (container.firstChild) {
-      container.removeChild(container.firstChild);
+      container.removeChild(container.firstChild)
     }
   }
 }

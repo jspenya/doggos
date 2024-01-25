@@ -1,11 +1,10 @@
-<div data-controller="debounce"></div>
-
-<%= form_for :dog, url: dogs_path, method: :post, data: { controller: "debounce", debounce_target: "form", url: search_dogs_url } do |f| %>
-  <%= f.search_field :breed, input_html: { autofocus: true }, placeholder: "Breeds", class: "rounded-lg text-lg", data: { action: "input->debounce#search", debounce_target: "inputField" }, autocomplete: "off" %>
-  <%= f.submit "Submit", class: "text-white bg-blue-700 hover:bg-blue-800
-    focus:ring-4 focus:ring-blue-300 font-medium rounded-lg
-    text-lg px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700
-    focus:outline-none dark:focus:ring-blue-800" %>
-<% end %>
-
-<div id="search_results"></div>
+<div data-controller="debounce">
+  <%= form_for :dog, url: dogs_path, method: :post, data: { debounce_target: "form", url: search_dogs_url } do |f| %>
+    <%= f.search_field :breed, input_html: { autofocus: true }, placeholder: "Breeds", class: "rounded-lg text-lg", data: { action: "input->debounce#search", debounce_target: "breedInput" }, autocomplete: "off" %>
+    <%= f.submit "Submit", class: "text-white bg-blue-700 hover:bg-blue-800
+      focus:ring-4 focus:ring-blue-300 font-medium rounded-lg
+      text-lg px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700
+      focus:outline-none dark:focus:ring-blue-800" %>
+  <% end %>
+  <div id="search_results" data-debounce-target="searchResults"></div>
+</div>
