@@ -5,7 +5,7 @@ module Dogs
 
       attr_reader :breed, :conn
 
-      def initialize(breed = nil)
+      def initialize(breed: nil)
         @breed  = breed&.downcase
         @conn ||= Faraday.new(
           url: BASE_URI

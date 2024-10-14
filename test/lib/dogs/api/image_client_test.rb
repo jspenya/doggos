@@ -6,7 +6,7 @@ module Dogs
     class ImageClientTest < ActiveSupport::TestCase
       setup do
         @breed = dogs(:first).breed
-        @client = Dogs::Api::ImageClient.new(@breed)
+        @client = Dogs::Api::ImageClient.new(breed: @breed)
         @api_url = "https://dog.ceo/api/breed/#{@breed}/images/random"
       end
 

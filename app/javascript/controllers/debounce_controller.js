@@ -2,40 +2,64 @@ import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="debounce"
 export default class extends Controller {
-  connect() { }
-
+  static dogs = ['names']
   static targets = ["form", "breedOption", "breedInput", "searchResults"]
 
-  search() {
-    clearTimeout(this.timeout)
-    this.timeout = setTimeout(() => {
-      fetch("/dogs/search", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-CSRF-Token": document.querySelector('[name="csrf-token"]').content,
-          'Accept': 'text/vnd.turbo-stream.html',
-        },
-        body: JSON.stringify({ breed: this.breedInputTarget.value })
-      }).then(response => {
-        if (response.ok) {
-          return response.text()
-        }
-        throw new Error('Network response was not ok.')
-      }).then(html => {
-        Turbo.renderStreamMessage(html)
-      }).catch(error => {
-        console.error('Error:', error)
+  connect() {
+    fetch('/dogs.json')
+      .then(response => response.json())
+      .then(dogNames => {
+        this.dogsNames = dogNames
       })
+      .catch(error => {
+        console.error("Error fetching dog names:", error)
+      })
+  }
 
-    }, 500)
+  search() {
+    const searchQuery = this.breedInputTarget.value.toLowerCase()
+    if (searchQuery === '') {
+      return
+    }
+
+    const filteredDogs = this.dogsNames.filter(dog =>
+      dog.toLowerCase().includes(searchQuery)
+    )
+
+    this.updateSearchResults(filteredDogs)
+  }
+
+  updateSearchResults(dogs) {
+    const container = this.searchResultsTarget
+    container.innerHTML = ''
+
+    if (dogs.length === 0) {
+      container.innerHTML = '<p>No matching breeds found.</p>'
+      return
+    }
+
+    dogs.forEach(dog => {
+      const div = document.createElement('div')
+      div.classList.add('my-2')
+
+      const link = document.createElement('a')
+      link.textContent = dog
+      link.href = "#"
+      link.dataset.action = "click->debounce#selectOption"
+      link.dataset.debounceTarget = "breedOption"
+      link.dataset.breed = dog
+      link.dataset.turbo = "true"
+
+      div.appendChild(link)
+      container.appendChild(div)
+    })
   }
 
   selectOption(event) {
     const container = this.searchResultsTarget
     event.preventDefault()
 
-    this.breedInputTarget.value = this.breedOptionTarget.dataset.breed
+    this.breedInputTarget.value = event.target.dataset.breed
     this.formTarget.requestSubmit()
 
     while (container.firstChild) {

@@ -1,8 +1,13 @@
 class DogsController < ApplicationController
-  def index; end
+  def index
+    respond_to do |format|
+      format.html
+      format.json { render json: breed_names }
+    end
+  end
 
   def create
-    @response = Dogs::Api::ImageClient.new(breed_params[:breed]).by_breed unless breed_params.blank?
+    @response = Dogs::Api::ImageClient.new(breed: breed_params[:breed]).by_breed unless breed_params.blank?
 
     respond_to do |format|
       format.turbo_stream
